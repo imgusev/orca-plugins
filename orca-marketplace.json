@@ -9,8 +9,10 @@
         "url": "https://github.com/imgusev/orca-plugin-ru.git",
         "ref": "v1.1.1"
       },
-      "description": "Полная русификация интерфейса Orca: 12103 из 12292 строк (98%). Собрано и проверено для Orca 1.4.176.",
-      "categories": ["languages"]
+      "description": "Полный перевод интерфейса Orca на русский язык.",
+      "categories": [
+        "languages"
+      ]
     }
   ]
 }
