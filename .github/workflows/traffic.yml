@@ -1,0 +1,58 @@
+name: traffic
+
+# Статистика по всем плагинам источника собирается здесь, а не в самих плагинах:
+# там лежит перевод, а не обвязка вокруг проекта.
+#
+# GitHub хранит клоны и просмотры только 14 дней и старое не отдаёт, поэтому
+# снимок нужно снимать регулярно. Клон здесь и есть установка: Orca ставит
+# и обновляет плагин через git clone, а индекс клонирует ещё и при проверке
+# обновлений.
+#
+# Нужен секрет TRAFFIC_TOKEN — fine-grained PAT с правом Administration:
+# read-only на оба репозитория. Встроенного GITHUB_TOKEN не хватает:
+# traffic API отвечает ему "Resource not accessible by integration".
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Проверить токен
+        run: |
+          if [ -z "${{ secrets.TRAFFIC_TOKEN }}" ]; then
+            echo "::error::нет секрета TRAFFIC_TOKEN — статистику собрать нечем."
+            echo "Создайте fine-grained PAT (Administration: read-only) на imgusev/orca-plugins"
+            echo "и imgusev/orca-plugin-ru, затем положите его в Settings → Secrets and"
+            echo "variables → Actions как TRAFFIC_TOKEN."
+            exit 1
+          fi
+
+      - name: Собрать статистику по индексу
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+        run: python3 tools/traffic.py "$GITHUB_REPOSITORY" data/traffic-marketplace.csv
+
+      - name: Собрать статистику по русскому пакету
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+        run: |
+          python3 tools/traffic.py imgusev/orca-plugin-ru data/traffic-plugin-ru.csv \
+            || echo "::warning::добавьте imgusev/orca-plugin-ru в Repository access у TRAFFIC_TOKEN"
+
+      - name: Зафиксировать, если что-то изменилось
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/*.csv
+          git diff --staged --quiet && echo "изменений нет" && exit 0
+          git commit -m "traffic: снимок за $(date -u +%F)"
+          git push
