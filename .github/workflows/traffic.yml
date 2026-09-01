@@ -55,4 +55,8 @@ jobs:
           git add data/*.csv
           git diff --staged --quiet && echo "изменений нет" && exit 0
           git commit -m "traffic: снимок за $(date -u +%F)"
-          git push
+          # ветка могла уйти вперёд, пока шёл сбор: релизы плагинов правят
+          # тот же репозиторий. Без этого push молча отвалится и снимок за день
+          # потеряется — так пропал 31 августа.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
