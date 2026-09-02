@@ -1,5 +1,7 @@
 # Плагины imgusev для Orca — русификатор интерфейса
 
+> 🇬🇧 **English version** → [README.en.md](README.en.md)
+
 Источник плагинов для [Orca](https://github.com/stablyai/orca) — среды разработки агентов (ADE) от Stably AI. Добавьте его один раз — и плагины ставятся в один клик, а обновления Orca предлагает сама.
 
 Главный из них — **русификатор Orca**: [русский языковой пакет](https://github.com/imgusev/orca-plugin-ru), переводящий интерфейс на 98%. Про него подробно — на [странице проекта](https://imgusev.github.io/orca-plugin-ru/).
