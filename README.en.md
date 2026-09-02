@@ -22,7 +22,7 @@ The main one is the **Russian language pack**: [imgusev/orca-plugin-ru](https://
 
 | Plugin | Description |
 |---|---|
-| [Русский язык для Orca](https://github.com/imgusev/orca-plugin-ru) | Russian UI translation: 13 649 of 13 838 strings (98%), native plural forms, no patching of the app. [Project page](https://imgusev.github.io/orca-plugin-ru/) |
+| [Русский язык для Orca](https://github.com/imgusev/orca-plugin-ru) | Russian UI translation: 13 683 of 13 872 strings (98%), native plural forms, no patching of the app. [Project page](https://imgusev.github.io/orca-plugin-ru/) |
 
 ## How it works
 
