@@ -7,7 +7,7 @@
       "source": {
         "kind": "git",
         "url": "https://github.com/imgusev/orca-plugin-ru.git",
-        "ref": "v1.4.277"
+        "ref": "v1.4.279"
       },
       "description": "Полный перевод интерфейса Orca на русский язык.",
       "categories": [
